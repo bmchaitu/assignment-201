@@ -9,7 +9,6 @@ import { loadUser } from "./actions/userActions";
 function SimpleContainer({user, loadUser}) {
   React.useEffect(()=>{
     const token = localStorage.getItem('auth-token');
-    console.log(token);
     if(token)
       loadUser(token);
       //eslint-disable-next-line

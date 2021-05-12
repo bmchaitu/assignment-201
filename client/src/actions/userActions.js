@@ -25,7 +25,6 @@ export const loadUser = (token) => {
         }
       }
     );
-    console.log(data);
       dispatch({
         type: "LOAD_USER",
         payload: { username:data.username, token, loggedIn:true },

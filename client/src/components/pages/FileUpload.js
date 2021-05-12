@@ -7,10 +7,10 @@ const style = {
     margin: "0px auto",
   },
 };
-const FileUpload = () => {
+const FileUpload = (props) => {
   return (
     <div className="upload_container" style={style.upload_container}>
-      <StyledDropzone />
+      <StyledDropzone getAllFiles={props.getAllFiles} setState={props.setState}/>
     </div>
   );
 };

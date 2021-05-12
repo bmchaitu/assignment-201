@@ -17,6 +17,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import {useHistory} from 'react-router-dom';
 import {removeUser} from '../../actions/userActions';
 import {connect} from 'react-redux';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -25,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
+  },
+  pg:{
+    width: '90%',
+    margin:'auto',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
   },
   table: {
     minWidth: 650,
@@ -45,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard(props) {
   const classes = useStyles();
   const [files, setFiles] = useState([]);
+  const [state,setState] = useState({loading:false});
   var history = useHistory();
   const getAllFiles = async () => {
     const files = await axios.get("/files", {
@@ -67,19 +76,21 @@ const handleClick = () => {
     <AppBar position="static">
       <Toolbar>
         <Button className={classes.title} onClick={handleClick} color="inherit">LogOut</Button>
-
       </Toolbar>
     </AppBar>
   </div>
     <main className={classes.content}>
-      <FileUpload />
-      <div className={classes.toolbar} style={{ marginTop: 20 }}>
+      <FileUpload getAllFiles={getAllFiles} setState={setState} />
+      {state.loading ? (<div className={classes.pg}>
+      <LinearProgress />
+    </div>) : (<div className={classes.toolbar} style={{ marginTop: 20 }}>
         {files.length > 0 ? (
           <FileTable files={files} />
         ) : (
           <h4>There are currently no files</h4>
         )}
-      </div>
+      </div>) }
+      
     </main>
     </React.Fragment>
   );

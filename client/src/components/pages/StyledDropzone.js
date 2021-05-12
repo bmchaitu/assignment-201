@@ -4,6 +4,7 @@ import axios from "axios";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import Button from "@material-ui/core/Button";
 
+
 import Chip from "@material-ui/core/Chip";
 const dropzoneStyle = {
   width: "100%",
@@ -39,11 +40,13 @@ function StyledDropzone(props) {
         "content-type": "multipart/form-data",
       },
     };
+    props.setState({loading:true});
     axios
       .post("/upload", formData, config)
       .then((response) => {
         if (response.status === 200) {
-          console.log('uploaded');
+          props.setState({loading:false});
+          props.getAllFiles();
           setFile(null);
         }
       })
@@ -83,7 +86,6 @@ function StyledDropzone(props) {
           </Button>
         </div>
       </form>
-      {console.log(file)}
       {file && (
         <div className="files_pending">
           <Chip label={file && file.name} color="primary" />
